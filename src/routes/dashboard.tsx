@@ -4,6 +4,7 @@ import { Button, Typography, Space, Spin, Alert } from 'antd'
 import { ReloadOutlined } from '@ant-design/icons'
 import { useDataStore } from '@stores/data.store'
 import { useShortLLMData, useLongLLMData } from '@hooks/use-llm-data.hook'
+import { ResponseTimeChart } from '@components/charts/response-time-chart.component'
 
 const { Title, Paragraph } = Typography
 
@@ -121,17 +122,16 @@ function DashboardPage() {
           </Button>
         </div>
         
-        {/* Chart component placeholder - Phase 3 */}
-        <div style={{ 
-          padding: 60, 
-          textAlign: 'center', 
-          background: '#f5f5f5',
+        {/* Response Time Chart */}
+        <div style={{
+          padding: 24,
+          background: '#ffffff',
           borderRadius: 8,
-          border: '2px dashed #d9d9d9'
+          border: '1px solid #d9d9d9',
+          marginBottom: 16
         }}>
-          <Paragraph style={{ marginBottom: 0, fontSize: 16, color: '#8c8c8c' }}>
-            📊 Chart component placeholder (Phase 3)
-          </Paragraph>
+          <Title level={4} style={{ marginBottom: 16 }}>Response Time Over Time</Title>
+          <ResponseTimeChart data={currentData} />
         </div>
         
         {/* Table component placeholder - Phase 4 */}

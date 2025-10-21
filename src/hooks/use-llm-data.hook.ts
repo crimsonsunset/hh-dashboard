@@ -1,6 +1,6 @@
 import { useQuery, type UseQueryOptions } from '@tanstack/react-query'
 import { llmService } from '@services/llm.service'
-import type { LLMResponseData } from '../types/llm-response.types'
+import type { LLMResponseData } from '@app-types/llm-response.types'
 
 /**
  * Hook to fetch short LLM dataset (small sample)
