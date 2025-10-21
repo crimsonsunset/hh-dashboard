@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { apiClient } from '@config/axios.config'
 import type { LLMResponseData } from '@app-types/llm-response.types'
 
 /**
@@ -10,7 +10,7 @@ class LLMService {
    * @returns Promise with LLM response data
    */
   async getShortData(): Promise<LLMResponseData> {
-    const response = await axios.get<LLMResponseData>('/src/data/short.mock-data.json')
+    const response = await apiClient.get<LLMResponseData>('/short.mock-data.json')
     return response.data
   }
 
@@ -19,7 +19,7 @@ class LLMService {
    * @returns Promise with LLM response data
    */
   async getLongData(): Promise<LLMResponseData> {
-    const response = await axios.get<LLMResponseData>('/src/data/long.mock-data.json')
+    const response = await apiClient.get<LLMResponseData>('/long.mock-data.json')
     return response.data
   }
 }
