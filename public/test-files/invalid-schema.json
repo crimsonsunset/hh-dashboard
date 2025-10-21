@@ -1,0 +1,10 @@
+{
+  "responses": [
+    {
+      "id": "resp_test123",
+      "model": "gpt-4",
+      "status": "invalid_status"
+    }
+  ]
+}
+

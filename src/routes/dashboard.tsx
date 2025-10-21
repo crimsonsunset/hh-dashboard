@@ -1,11 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { DashboardLayout } from '@components/layout/dashboard-layout.component'
-import { Button, Typography, Space, Spin, Alert } from 'antd'
+import { Button, Typography, Space, Spin, Alert, message } from 'antd'
 import { ReloadOutlined } from '@ant-design/icons'
 import { useDataStore } from '@stores/data.store'
 import { useShortLLMData, useLongLLMData } from '@hooks/use-llm-data.hook'
 import { ResponseTimeChart } from '@components/charts/response-time-chart.component'
 import { ResponseTable } from '@components/ui/response-table.component'
+import { FileUploadZone } from '@components/ui/file-upload-zone.component'
+import { validateUploadedFile } from '@utils/file-validation.utils'
 
 const { Title, Paragraph } = Typography
 
@@ -14,7 +16,7 @@ const { Title, Paragraph } = Typography
  * Implements data loading interface with React Query + Zustand pattern
  */
 function DashboardPage() {
-  const { activeDataset, setActiveDataset, clearDataset } = useDataStore()
+  const { activeDataset, data, setActiveDataset, clearDataset, setData } = useDataStore()
   
   // Only fetch when dataset is selected (enabled flag prevents unnecessary requests)
   const shortQuery = useShortLLMData({ enabled: activeDataset === 'short' })
@@ -22,14 +24,34 @@ function DashboardPage() {
   
   // Determine current data and query state
   const currentQuery = activeDataset === 'short' ? shortQuery : longQuery
-  const currentData = currentQuery.data?.responses || null
-  const isLoading = currentQuery.isLoading
-  const isError = currentQuery.isError
+  const currentData = activeDataset === 'custom' ? data : (currentQuery.data?.responses || null)
+  const isLoading = activeDataset !== 'custom' && currentQuery.isLoading
+  const isError = activeDataset !== 'custom' && currentQuery.isError
   
   // Handlers
   const handleLoadSmall = () => setActiveDataset('short')
   const handleLoadLarge = () => setActiveDataset('long')
   const handleReset = () => clearDataset()
+  
+  const handleFileUpload = async (file: File) => {
+    // Validate file
+    const validation = await validateUploadedFile(file)
+    
+    if (!validation.valid) {
+      message.error(validation.error || 'File validation failed')
+      return
+    }
+    
+    if (!validation.data) {
+      message.error('No data found in file')
+      return
+    }
+    
+    // Set custom dataset
+    setActiveDataset('custom')
+    setData(validation.data.responses)
+    message.success(`Loaded ${validation.data.responses.length} responses from ${file.name}`)
+  }
   
   // No Data State - Initial view before any dataset is loaded
   if (!activeDataset) {
@@ -39,7 +61,9 @@ function DashboardPage() {
         <Paragraph style={{ fontSize: 16, marginBottom: 32, maxWidth: 600, margin: '0 auto 32px' }}>
           Load a dataset to begin exploring LLM response patterns and performance metrics
         </Paragraph>
-        <Space size="large">
+        
+        {/* Mock Dataset Buttons */}
+        <Space size="large" style={{ marginBottom: 32 }}>
           <Button 
             type="primary" 
             size="large"
@@ -63,6 +87,11 @@ function DashboardPage() {
             </div>
           </Button>
         </Space>
+        
+        {/* File Upload Zone */}
+        <div style={{ maxWidth: 600, margin: '0 auto' }}>
+          <FileUploadZone onFileSelect={handleFileUpload} />
+        </div>
       </div>
     )
   }
@@ -111,7 +140,11 @@ function DashboardPage() {
           <div>
             <Title level={2} style={{ marginBottom: 8 }}>Data Explorer</Title>
             <Paragraph style={{ marginBottom: 0, fontSize: 14 }}>
-              Loaded <strong>{currentData.length}</strong> responses from <strong>{activeDataset === 'short' ? 'small' : 'large'}</strong> dataset
+              Loaded <strong>{currentData.length}</strong> responses from{' '}
+              <strong>
+                {activeDataset === 'short' ? 'small' : activeDataset === 'long' ? 'large' : 'custom'}
+              </strong>{' '}
+              dataset
             </Paragraph>
           </div>
           <Button 
