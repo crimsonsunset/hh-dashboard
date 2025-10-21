@@ -5,6 +5,7 @@ import { ReloadOutlined } from '@ant-design/icons'
 import { useDataStore } from '@stores/data.store'
 import { useShortLLMData, useLongLLMData } from '@hooks/use-llm-data.hook'
 import { ResponseTimeChart } from '@components/charts/response-time-chart.component'
+import { ResponseTable } from '@components/ui/response-table.component'
 
 const { Title, Paragraph } = Typography
 
@@ -134,18 +135,16 @@ function DashboardPage() {
           <ResponseTimeChart data={currentData} />
         </div>
         
-        {/* Table component placeholder - Phase 4 */}
-        <div style={{ 
-          padding: 60, 
-          textAlign: 'center', 
-          background: '#f5f5f5',
+        {/* Response Data Table */}
+        <div style={{
+          padding: 24,
+          background: '#ffffff',
           borderRadius: 8,
-          border: '2px dashed #d9d9d9',
-          marginTop: 16 
+          border: '1px solid #d9d9d9',
+          marginTop: 16
         }}>
-          <Paragraph style={{ marginBottom: 0, fontSize: 16, color: '#8c8c8c' }}>
-            📋 Table component placeholder (Phase 4)
-          </Paragraph>
+          <Title level={4} style={{ marginBottom: 16 }}>Response Data</Title>
+          <ResponseTable data={currentData} />
         </div>
       </div>
     )
