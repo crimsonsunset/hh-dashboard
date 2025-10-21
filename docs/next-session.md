@@ -30,6 +30,6 @@
 ## Notes & Decisions
 - Project is in early development phase (no initial git commit yet)
 - Foundation is solid: routing, theming, state management all configured
-- Mock data structure is ready (revenue, users, conversions, pageViews)
-- React Query hooks are ready but not yet consumed by UI
+- Mock data structure is ready (LLM responses with tokens, costs, models, quality metrics)
+- Service layer and hooks need to be created for data consumption
 

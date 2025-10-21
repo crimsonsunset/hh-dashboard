@@ -66,7 +66,7 @@ Update this document when major milestones are reached or project direction chan
 - [x] ESLint configuration with TypeScript rules
 
 #### In Progress 🔨
-- [ ] Metrics cards component (revenue, users, conversions, pageViews)
+- [ ] Metrics cards component (cost, tokens, response time, quality metrics)
 - [ ] Chart components using Recharts
 - [ ] Dashboard page UI implementation
 - [ ] Data integration (connect React Query to UI)
