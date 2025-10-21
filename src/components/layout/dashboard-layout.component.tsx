@@ -68,7 +68,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               fontSize: 14,
               fontWeight: 600
             }}>
-              Joe Sangiorgio
+              LLM Usage Dashboard
             </span>
           )}
         </div>
