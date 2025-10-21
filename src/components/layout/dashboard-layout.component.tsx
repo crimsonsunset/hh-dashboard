@@ -68,7 +68,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               fontSize: 14,
               fontWeight: 600
             }}>
-              Joe Sangiorgio
+              LLM Usage Dashboard
             </span>
           )}
         </div>
@@ -93,7 +93,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               icon={sidebarCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
             />
-            
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <RangePicker 
               placeholder={['Start Date', 'End Date']}
               style={{ width: 240 }}
