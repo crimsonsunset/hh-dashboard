@@ -27,7 +27,7 @@ User Action: "Load Large Dataset"
    ↓
 3. Service Layer: llmService.getLongData()
    ↓
-4. Axios: GET /src/data/long.mock-data.json
+4. Axios: GET /data/long.mock-data.json (served from public/data/)
    ↓
 5. React Query: Cache data with key ['llm-data', 'long']
    ↓
@@ -288,10 +288,10 @@ export function useLongLLMData(
 // llm.service.ts
 async getLongData(filters?: LLMFilters): Promise<LLMResponseData> {
   // For now, still fetch all data
-  const response = await axios.get<LLMResponseData>('/src/data/long.mock-data.json')
+  const response = await apiClient.get<LLMResponseData>('/long.mock-data.json')
   
   // Future: Pass filters to real API
-  // const response = await axios.get('/api/v1/llm-data', { params: filters })
+  // const response = await apiClient.get('/api/v1/llm-responses', { params: filters })
   
   return response.data
 }
@@ -519,9 +519,9 @@ const { dataset, startDate, endDate } = search
 
 ### Current (Mock Data)
 ```typescript
-// Service fetches static JSON
+// Service fetches static JSON from public directory
 async getLongData() {
-  return axios.get('/src/data/long.mock-data.json')
+  return apiClient.get('/long.mock-data.json')
 }
 ```
 

@@ -61,14 +61,18 @@ hh-dashboard/
 │   │   ├── charts/         # Chart components
 │   │   └── ui/             # UI components
 │   ├── stores/             # Zustand state management
-│   ├── data/               # Mock data and TypeScript types
-│   │   ├── long.mock-data.json   # Large dataset (~1000 responses)
-│   │   └── short.mock-data.json  # Small dataset (~5 responses)
+│   ├── types/              # TypeScript type definitions
+│   ├── services/           # API service layer
+│   ├── hooks/              # Custom React hooks
+│   ├── utils/              # Helper utilities
 │   ├── config/             # Configuration files
 │   ├── assets/             # Static assets
 │   └── styles/             # Global styles
 ├── docs/                   # Project documentation
 └── public/                 # Public static files
+    └── data/               # Mock LLM response data
+        ├── long.mock-data.json   # Large dataset (~1000 responses)
+        └── short.mock-data.json  # Small dataset (~5 responses)
 ```
 
 ## 📊 Data Structure
@@ -194,25 +198,29 @@ The app uses Ant Design's built-in theming system with full support for:
 
 Toggle theme via the user menu in the top-right corner.
 
-## 📝 Implementation Plan
+## 📝 Implementation Approach
 
-This project follows a phased implementation approach:
+### Overview
+This project implements a production-ready LLM response data explorer with emphasis on clean architecture, type safety, and performance optimization.
 
-### Phase 1: Core Data Explorer (Current)
-- Data loading interface with small/large dataset buttons
-- Response time line chart visualization
-- Virtual scrolling data table (1000+ rows)
-- Reset functionality to switch datasets
+### Technical Approach
+1. **State Management Pattern**: Three-layer strategy separating UI state (Zustand), server state (React Query), and URL state (TanStack Router)
+2. **Data Loading**: Client-side JSON file loading with React Query for caching and conditional fetching
+3. **File Validation**: Three-layer validation system (extension → JSON syntax → schema validation)
+4. **Performance**: Virtual scrolling for 1000+ row tables, conditional query fetching, memoized chart data
+5. **Error Handling**: User-facing error messages via Ant Design message component with try-catch wrappers
 
-### Phase 2: Enhanced Visualization (Future)
-- Chart type selector dropdown
-- Additional chart types (token usage, cost, quality metrics)
-- More interactive data exploration features
+### Key Architectural Decisions
+- **TanStack Router**: Type-safe file-based routing with full TypeScript inference
+- **Zustand**: Minimal state management (~1KB) for UI preferences and dataset selection
+- **React Query**: Server state management with built-in caching and background refetching
+- **Ant Design**: Enterprise-grade components with virtual scrolling and theming support
+- **Recharts**: React-first declarative charting library
 
-### Phase 3: File Upload (Future)
-- Drag-and-drop JSON file upload
-- Client-side validation and parsing
-- Support for custom datasets
+### Implementation Status
+- ✅ **Phase 1**: Core data explorer (complete)
+- ✅ **Phase 3**: File upload with validation (completed ahead of schedule)
+- ⏸️ **Phase 2**: Enhanced visualization (deferred)
 
 ## 🎯 Design Principles
 
@@ -222,6 +230,43 @@ This MVP is built as the foundation of a long-term project:
 - **Simplicity First** - Minimal styling, focus on functionality
 - **Performance** - Smooth handling of 1000+ data points
 - **Extensibility** - Easy to add new chart types and features
+
+## 📋 Assumptions Made
+
+1. **Client-Side Only**: No backend API required for MVP; all data processing happens client-side
+2. **Mock Data Sufficiency**: Two dataset sizes (5 and 1000 responses) are adequate for demonstration
+3. **JSON Format**: Custom uploaded files follow the same schema as mock data (`LLMResponseData` type)
+4. **Browser Support**: Modern browsers with ES2022 support (Chrome, Firefox, Safari, Edge)
+5. **Single User**: No authentication or multi-user considerations needed for MVP
+6. **Static Deployment**: App can be deployed to static hosting (Netlify, Vercel, etc.)
+7. **Theme Persistence**: Theme preference persists in memory only (session-based, no localStorage)
+8. **Virtual Scrolling**: Ant Design's virtual scrolling is sufficient for handling large datasets
+
+## 🚀 Future Improvements
+
+Given more time, the following enhancements would be prioritized:
+
+### Immediate Priorities
+- **Wire up Date Selection**: Connect the date picker in the header to filter data by timestamp range
+- **Proper URL Routing**: Implement query params for shareable filtered views (`/dashboard?filters=X`)
+- **Graph Selector**: Add dropdown to toggle between different chart types (response time, tokens, cost, quality)
+
+### Architecture & Quality
+- **Styling System**: Establish design tokens and CSS-in-JS primitives for consistent theming
+- **Responsive Design**: Optimize layout for mobile and tablet devices
+- **Testing Framework**: Add unit tests (React Testing Library) and E2E tests (Playwright)
+
+### Features
+- **Advanced Filtering**: Multi-field filtering (model, status, date range, metrics thresholds)
+- **Data Export**: CSV/JSON export functionality
+- **Chart Interactions**: Tooltips, zoom, brush selection for detailed analysis
+- **Metrics Cards**: Summary statistics at top of dashboard
+- **Error Boundaries**: Route-level and component-level error recovery
+
+### Performance
+- **Code Splitting**: Dynamic imports for chart components
+- **Loading Skeletons**: Replace spinners with skeleton screens
+- **Debounced Search**: Add search/filter inputs with debouncing
 
 ## 📄 License
 
