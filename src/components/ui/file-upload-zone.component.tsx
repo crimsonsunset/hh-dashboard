@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone'
 import { InboxOutlined } from '@ant-design/icons'
 
 interface FileUploadZoneProps {
-  onFileSelect: (file: File) => void
+  onFileSelect: (file: File) => void | Promise<void>
   disabled?: boolean
 }
 
@@ -12,9 +12,9 @@ interface FileUploadZoneProps {
  * Accepts JSON files only, displays visual feedback during drag operations
  */
 export function FileUploadZone({ onFileSelect, disabled }: FileUploadZoneProps) {
-  const onDrop = useCallback((acceptedFiles: File[]) => {
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
-      onFileSelect(acceptedFiles[0])
+      await onFileSelect(acceptedFiles[0])
     }
   }, [onFileSelect])
 

@@ -1,6 +1,6 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { ConfigProvider, theme } from 'antd'
+import { ConfigProvider, App, theme } from 'antd'
 import { useAppStore } from '@stores/app.store'
 import { themeConfig } from '@config/theme.config'
 
@@ -14,8 +14,10 @@ function RootComponent() {
 
   return (
     <ConfigProvider theme={finalThemeConfig}>
-      <Outlet />
-      <TanStackRouterDevtools />
+      <App>
+        <Outlet />
+        <TanStackRouterDevtools />
+      </App>
     </ConfigProvider>
   )
 }

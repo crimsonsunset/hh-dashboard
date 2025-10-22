@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { DashboardLayout } from '@components/layout/dashboard-layout.component'
-import { Button, Typography, Space, Spin, Alert, message } from 'antd'
+import { Button, Typography, Space, Spin, Alert, App } from 'antd'
 import { ReloadOutlined } from '@ant-design/icons'
 import { useDataStore } from '@stores/data.store'
 import { useShortLLMData, useLongLLMData } from '@hooks/use-llm-data.hook'
@@ -16,6 +16,7 @@ const { Title, Paragraph } = Typography
  * Implements data loading interface with React Query + Zustand pattern
  */
 function DashboardPage() {
+  const { message } = App.useApp()
   const { activeDataset, data, setActiveDataset, clearDataset, setData } = useDataStore()
   
   // Only fetch when dataset is selected (enabled flag prevents unnecessary requests)
@@ -34,23 +35,28 @@ function DashboardPage() {
   const handleReset = () => clearDataset()
   
   const handleFileUpload = async (file: File) => {
-    // Validate file
-    const validation = await validateUploadedFile(file)
-    
-    if (!validation.valid) {
-      message.error(validation.error || 'File validation failed')
-      return
+    try {
+      // Validate file
+      const validation = await validateUploadedFile(file)
+      
+      if (!validation.valid) {
+        message.error(validation.error || 'File validation failed')
+        return
+      }
+      
+      if (!validation.data) {
+        message.error('No data found in file')
+        return
+      }
+      
+      // Set custom dataset
+      setActiveDataset('custom')
+      setData(validation.data.responses)
+      message.success(`Loaded ${validation.data.responses.length} responses from ${file.name}`)
+    } catch (error) {
+      console.error('File upload error:', error)
+      message.error('An unexpected error occurred while processing the file')
     }
-    
-    if (!validation.data) {
-      message.error('No data found in file')
-      return
-    }
-    
-    // Set custom dataset
-    setActiveDataset('custom')
-    setData(validation.data.responses)
-    message.success(`Loaded ${validation.data.responses.length} responses from ${file.name}`)
   }
   
   // No Data State - Initial view before any dataset is loaded
