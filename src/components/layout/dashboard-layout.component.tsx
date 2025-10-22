@@ -1,13 +1,16 @@
+import { useState } from 'react'
 import { Layout, Menu, Button, DatePicker, Select, Avatar } from 'antd'
 import { 
   DashboardOutlined, 
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   BulbOutlined,
-  UserOutlined
+  UserOutlined,
+  ProjectOutlined
 } from '@ant-design/icons'
 import { Link, useLocation } from '@tanstack/react-router'
 import { useAppStore } from '@stores/app.store'
+import { GenericModal } from '@components/ui/generic-modal.component'
 import logoLight from '@assets/logo.png'
 import logoDark from '@assets/logo2.png'
 
@@ -21,6 +24,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { sidebarCollapsed, setSidebarCollapsed, theme, setTheme } = useAppStore()
   const location = useLocation()
+  const [modalOpen, setModalOpen] = useState(false)
 
   const menuItems = [
     {
@@ -78,7 +82,25 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           selectedKeys={[location.pathname]}
           items={menuItems}
         />
+        
+        <div style={{ padding: sidebarCollapsed ? 8 : 16 }}>
+          <Button
+            type="default"
+            icon={<ProjectOutlined />}
+            onClick={() => setModalOpen(true)}
+            block={!sidebarCollapsed}
+            style={{ 
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: sidebarCollapsed ? 'center' : 'flex-start'
+            }}
+          >
+            {!sidebarCollapsed && "What's Next?"}
+          </Button>
+        </div>
       </Sider>
+      
+      <GenericModal open={modalOpen} onClose={() => setModalOpen(false)} />
       
       <Layout style={{ marginLeft: sidebarCollapsed ? 80 : 200 }}>
         <Header style={{ 

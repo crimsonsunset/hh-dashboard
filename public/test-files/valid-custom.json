@@ -1,0 +1,17 @@
+{
+  "responses": [
+    {
+      "id": "resp_custom001",
+      "timestamp": "2025-01-31T18:00:00.000Z",
+      "model": "gpt-4",
+      "prompt": "Test prompt",
+      "output": "Test output",
+      "status": "success",
+      "response_time_ms": 1500,
+      "total_tokens": 500,
+      "cost_usd": 0.05,
+      "evaluation_metrics": null
+    }
+  ]
+}
+

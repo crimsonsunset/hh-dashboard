@@ -44,16 +44,17 @@ Update this document when major milestones are reached or implementation phases 
 
 ### Data
 - Mock LLM response data:
-  - `src/data/short.mock-data.json` - Small dataset (~5 responses)
-  - `src/data/long.mock-data.json` - Large dataset (~1000 responses)
+  - `public/data/short.mock-data.json` - Small dataset (~5 responses)
+  - `public/data/long.mock-data.json` - Large dataset (~1000 responses)
 - Client-side data loading (no API calls)
 - In-memory data management via Zustand
 
 ## Implementation Phases
 
-### Phase 1: Core Data Explorer 🔨
-**Status**: In Progress  
+### Phase 1: Core Data Explorer ✅
+**Status**: Complete  
 **Started**: October 21, 2025  
+**Completed**: October 21, 2025  
 **Goal**: Functional data exploration interface with loading, visualization, and tabular views
 
 #### Foundation (Complete) ✅
@@ -67,14 +68,17 @@ Update this document when major milestones are reached or implementation phases 
 - [x] LLM response type definitions
 - [x] Mock data structure (small and large datasets)
 
-#### In Progress 🔨
-- [ ] Data store (Zustand) for loaded LLM response data
-- [ ] Data loading UI with "Load Small" and "Load Large" buttons
-- [ ] Response time line chart component (Recharts)
-- [ ] Virtual scrolling data table (Ant Design Table with `virtual` prop)
-- [ ] Reset functionality to clear data and load different dataset
-- [ ] Proper handling of null values and error states in UI
-- [ ] Layout that handles long output text gracefully
+#### Implementation (Complete) ✅
+- [x] Data store (Zustand) for loaded LLM response data
+- [x] Data loading UI with "Load Small" and "Load Large" buttons
+- [x] Response time line chart component (Recharts)
+- [x] Virtual scrolling data table (Ant Design Table with `virtual` prop)
+- [x] Reset functionality to clear data and load different dataset
+- [x] Proper handling of null values and error states in UI
+- [x] Layout that handles long output text gracefully
+- [x] File upload with drag-and-drop (react-dropzone)
+- [x] Three-layer file validation (extension, JSON, schema)
+- [x] Error messages with Ant Design message component (bottom placement)
 
 #### Success Criteria
 - ✅ User can load small or large dataset with button click
@@ -107,16 +111,25 @@ Update this document when major milestones are reached or implementation phases 
 
 ---
 
-### Phase 3: File Upload
-**Status**: Not Started  
+### Phase 3: File Upload ✅
+**Status**: Complete  
 **Dependencies**: Phase 1 complete  
-**Timeline**: Deferred to end of roadmap
+**Completed**: October 21, 2025
 
 #### Goals
-- [ ] Drag-and-drop file upload component (Ant Design Upload.Dragger)
-- [ ] JSON file validation against `LLMResponseData` type
-- [ ] Error handling for invalid files
-- [ ] Replace or augment "Load Small/Large" buttons with upload area
+- [x] Drag-and-drop file upload component (react-dropzone)
+- [x] JSON file validation against `LLMResponseData` type
+- [x] Error handling for invalid files
+- [x] Augment "Load Small/Large" buttons with upload area
+
+#### Implementation Details
+- Three-layer validation system:
+  1. File extension validation (.json only)
+  2. JSON parseability check
+  3. Schema validation (responses array, required fields)
+- User-facing error messages via Ant Design message component
+- Support for custom datasets alongside mock data
+- Test files included in `public/test-files/` for validation testing
 
 #### Success Criteria
 - ✅ User can drag-and-drop JSON files

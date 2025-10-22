@@ -203,30 +203,34 @@ src/
 - Full type inference
 
 ### Type Definition Locations
-- **API Types**: `src/data/*.types.ts`
+- **API Types**: `src/types/*.types.ts`
 - **Component Props**: Inline with component
 - **Store Types**: Inline with store definition
-- **Utility Types**: `src/utils/*.types.ts`
+- **Utility Types**: `src/types/*.types.ts`
 
-### Current Type Definitions Needed
+### Existing Type Definitions
 ```typescript
-// src/data/analytics.types.ts (to be created)
-export interface AnalyticsData {
-  date: string
-  revenue: number
-  users: number
-  conversions: number
-  pageViews: number
+// src/types/llm-response.types.ts (implemented)
+export interface LLMResponse {
+  id: string
+  timestamp: string
+  model: 'gpt-4' | 'gpt-3.5-turbo' | 'claude-3' | string
+  prompt_tokens: number
+  completion_tokens: number | null
+  total_tokens: number | null
+  response_time_ms: number
+  status: 'success' | 'error' | 'timeout'
+  cost_usd: number
+  temperature: number
+  max_tokens: number
+  prompt_template: string
+  output: string | null
+  evaluation_metrics: EvaluationMetrics | null
+  error: ErrorInfo | null
 }
 
-export interface AnalyticsMetrics {
-  totalRevenue: number
-  totalUsers: number
-  totalConversions: number
-  totalPageViews: number
-  avgRevenue: number
-  avgUsers: number
-  conversionRate: number
+export interface LLMResponseData {
+  responses: LLMResponse[]
 }
 ```
 
