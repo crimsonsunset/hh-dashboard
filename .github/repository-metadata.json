@@ -1,0 +1,21 @@
+{
+  "name": "hh-dashboard",
+  "description": "Modern data exploration interface for analyzing LLM response patterns and performance metrics - Built with React, TypeScript, and TanStack Router",
+  "topics": [
+    "react",
+    "typescript",
+    "dashboard",
+    "llm",
+    "analytics",
+    "tanstack-router",
+    "data-visualization",
+    "ai-metrics",
+    "chart-js"
+  ],
+  "website": "https://hh-dashboard.netlify.app/",
+  "visibility": "public",
+  "has_issues": true,
+  "has_wiki": false,
+  "has_projects": false
+}
+
